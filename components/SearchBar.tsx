@@ -7,14 +7,16 @@ const SearchBar = () => {
   const params = useLocalSearchParams<{ query: string }>();
   const [query, setQuery] = useState(params.query);
 
-  const hanldeSearch = (text: string) => {
+  const handleSearch = (text: string) => {
     setQuery(text);
-
-    if (!text) router.setParams({ query: undefined });
   };
 
   const handleSubmit = () => {
-    if (query.trim()) router.setParams({ query });
+    if (query.trim()) {
+      router.setParams({ query });
+    } else {
+      router.setParams({ query: undefined }); // optional: if you want to "clear" search
+    }
   };
 
   return (
@@ -23,7 +25,7 @@ const SearchBar = () => {
         className="flex-1 p-5"
         placeholder="Search for your favorite food...."
         value={query}
-        onChangeText={hanldeSearch}
+        onChangeText={handleSearch}
         onSubmitEditing={handleSubmit}
         placeholderTextColor="#a0a0a0"
         returnKeyType="search"
